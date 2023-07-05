@@ -33,18 +33,22 @@ const OVERLAY_STYLE = {
 
 */
 export default function CreatePlaylistPopup({ open, children, onClose }) {
+  //called when submit button clicked
   const buttonClick = () => {
     // 1
+    //handles form submission and fetches playlist data
     grabFormFields();
     // 2
     // (onClose());
   };
+  //extract playlistID from spotify URL, handles URLs with and without query params using regex patterns
   function regexGetID(url) {
     console.log(url, 'this is the url');
     //https://open.spotify.com/playlist/1CGWsx59an7hhc0SWZWsoG?si=07a7832e0e9f411d
     //https://open.spotify.com/playlist/0njqI80SiF1vxq5QVyyFP2
     const regex1 = /.+(?=\?)/gi;
     const regex2 = /(?<=playlist\/).+/gi;
+    //execute search on given url returns an arr containing matched substrings
     const str = regex1.exec(url);
     console.log(str, 'this is the first');
     let str2;
@@ -56,6 +60,7 @@ export default function CreatePlaylistPopup({ open, children, onClose }) {
     console.log(str2);
     return str2[0];
   }
+  //retreive input fields within form with ID createPlaylistForm
   const grabFormFields = () => {
     const form = document.getElementById('createPlaylistForm');
 
