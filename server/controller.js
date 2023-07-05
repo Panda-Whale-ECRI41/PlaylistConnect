@@ -11,20 +11,28 @@ const {
 const mainController = {
   // ---------------------------- USER CONTROLLER ----------------------------
   createUser(req, res, next) {
-    const { username, password } = req.body;
-    UserObject.create({ username, password })
-      .then((user) => {
-        res.locals.newUser = user;
-        // console.log(user);
-        return next();
-      })
-      .catch((err) => {
-        return next({
-          log: "Error in controller.js/mainController.createUser",
-          status: 400,
-          message: { err: "ERROR: unable to create user." },
-        });
+    const { firstName, lastName, username, password } = req.body;
+    if (UserObject.findOne(username)) {
+      return next({
+        log: "Error in controller.js/mainController.createUser",
+        status: 400,
+        message: { err: "Try another username" },
       });
+    } else {
+      UserObject.create({ firstName, lastName, username, password })
+        .then((user) => {
+          res.locals.newUser = user;
+          // console.log(user);
+          return next();
+        })
+        .catch((err) => {
+          return next({
+            log: "Error in controller.js/mainController.createUser",
+            status: 400,
+            message: { err: "ERROR: unable to create user." },
+          });
+        });
+    }
   },
   //http://localhost:3000/user/dummyUser1
   getUser(req, res, next) {
@@ -98,7 +106,7 @@ const mainController = {
         return next({
           log: "Error in controller.js/mainController.getGroup",
           status: 400,
-          message: { err: "ERROR: unable to retrieve group." },
+          message: { err: "ERROR: unable gio retrieve group." },
         });
       });
   },
@@ -212,10 +220,12 @@ const mainController = {
   // access playlists array and push the newly created playlist object to that array.
   // playlist/:groupID
   getPlaylist(req, res, next) {
-    const groupID = req.query.playlistID;
-    console.log(req.query.playlistID);
+    const groupID = req.params.groupID;
+    console.log("This is groupID", groupID);
     GroupObject.findOne({ groupID: groupID })
       .then((group) => {
+        console.log("we are in here");
+        console.log(group);
         res.locals.foundPlaylist = group.playlists;
         console.log(group.playlists);
         return next();

@@ -1,13 +1,14 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const path = require('path');
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri ='mongodb+srv://carlosfrev123:d3KkR6wrS8ZWDkQN@maindb.kcu0qnr.mongodb.net/?retryWrites=true&w=majority';
+const uri =`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster.0own7hn.mongodb.net/
+`;
 const db = require('./model.js');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const mainController = require('./controller.js');
-// const PORT = 3000;
+const PORT = 3000;
 
 mongoose.connect(uri, {
   useNewUrlParser: true,
@@ -31,26 +32,33 @@ app.get('/', (req, res) => {
 app.post('/user', mainController.createUser, (req, res) => {
   return res.status(200).json(res.locals.newUser);
 });
+app.get('/user/:username', mainController.getUser, (req, res) => {
+  return res.status(200).json(res.locals.foundUser);
+});
+
+//group functions
 app.post('/group', mainController.createGroup, (req, res) => {
   return res.status(200).json(res.locals.newGroup);
 });
+app.get('/group/:groupID', mainController.getGroup, (req, res) => {
+  return res.status(200).json(res.locals.foundGroup);
+});
+
 app.post('/playlist', mainController.createPlaylist, (req, res) => {
   return res.status(200).json(res.locals.newPlaylist);
 });
+app.get('/playlist/:groupID', mainController.getPlaylist, (req, res) => {
+  return res.status(200).json(res.locals.foundPlaylist);
+});
+
 app.post('/addGroup', mainController.addGroupToUser, (req, res) => {
   return res.status(200).json(res.locals.groupArr);
 });
 // in body add user object that you want to get
-app.get('/user/:username', mainController.getUser, (req, res) => {
-  return res.status(200).json(res.locals.foundUser);
-});
+
 //localhost:3000/group/1
-app.get('/group/:groupID', mainController.getGroup, (req, res) => {
-  return res.status(200).json(res.locals.foundGroup);
-});
-app.get('/playlist', mainController.getPlaylist, (req, res) => {
-  return res.status(200).json(res.locals.foundPlaylist);
-});
+
+
 // // DELETE ALL GROUPS,PLAYLISTS, USERS
   // deleteAllGroups
 app.delete('/group', mainController.deleteAllGroups, (req,res)=>{
@@ -95,10 +103,10 @@ app.use((err, req, res, next) => {
   return res.status(errorObj.status).json(errorObj.message);
 });
 
-// app.listen(PORT, () => console.log(`Listening on PORT: ${PORT}`));
+app.listen(PORT, () => console.log(`Listening on PORT: ${PORT}`));
 
-app.listen(3000, () => {
-  console.log('server started on 3000', process.env.NODE_ENV);
-});
+// app.listen(PORT, () => {
+//   console.log('server started on 3000');
+// });
 
 module.exports = app;
