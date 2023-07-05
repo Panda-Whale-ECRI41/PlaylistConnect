@@ -1,12 +1,21 @@
 const express = require('express');
+require('dotenv').config();
 const app = express();
 const path = require('path');
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri ='mongodb+srv://carlosfrev123:d3KkR6wrS8ZWDkQN@maindb.kcu0qnr.mongodb.net/?retryWrites=true&w=majority';
-const db = require('./model.js');
+const uri =process.env.MONGO_URI;
 const mongoose = require('mongoose');
 const cors = require('cors');
-const mainController = require('./controller.js');
+
+// import controllers
+const UserController = require('./controllers/userController.js');
+const GroupController = require('./controllers/groupController.js');
+const PlaylistController = require('./controllers/playlistController.js');
+
+// import routes
+const userRouter = require('./routes/user.js');
+const groupRoute = require('./routes/group.js');
+
+
 // const PORT = 3000;
 
 mongoose.connect(uri, {
@@ -26,6 +35,8 @@ app.use(express.static(path.resolve(__dirname, '../client')));
 app.get('/', (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, '../client/index.html'));
 });
+
+app.use('/user', userRouter)
 
 // createUser
 app.post('/user', mainController.createUser, (req, res) => {
