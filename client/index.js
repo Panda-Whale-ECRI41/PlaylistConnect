@@ -1,5 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { BrowserRouter as Router } from 'react-router-dom';
 import App from './components/App.jsx';
 import styles from './styles/styles.scss';
 
@@ -8,4 +9,8 @@ import styles from './styles/styles.scss';
 //render(<App />, document.getElementById('app'));
 const div = document.getElementById('app');
 const root = createRoot(div);
-root.render(<App className='app'/>);
+root.render(
+<Router>
+<App className='app'/>
+</Router>
+);

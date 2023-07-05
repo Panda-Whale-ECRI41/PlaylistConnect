@@ -25,7 +25,7 @@ export default function CreateUserPopup ({open, children, onClose}) {
 
 return(
     <>
-        <div style={OVERLAY_STYLE}>
+        <div style={OVERLAY_STYLE}> 
         <div style={STYLE}>
             <button onClick={onClose}>Close Model</button>
             {children}

@@ -41,7 +41,7 @@ module.exports = {
     hot: true,
     compress: true,
     proxy: {
-      '/': 'http://localhost:3000',
+      '/api': 'http://localhost:3000',
     },
   },
   stats: {
