@@ -51,7 +51,7 @@ app.get('/playlist/:groupID', mainController.getPlaylist, (req, res) => {
   return res.status(200).json(res.locals.foundPlaylist);
 });
 
-app.patch('/user/:groups', mainController.addGroupToUser, (req, res) => {
+app.post('/addGroup', mainController.addGroupToUser, (req, res) => {
   return res.status(200).json(res.locals.groupArr);
 });
 // in body add user object that you want to get
