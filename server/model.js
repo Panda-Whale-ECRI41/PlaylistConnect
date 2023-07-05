@@ -18,6 +18,8 @@ const groupObjectSchema = new mongoose.Schema({
 });
 
 const userObjectSchema = new mongoose.Schema({
+  firstName : {type: String, required: true},
+  lastName: {type: String, required: true},
   username: { type: String, required: true },
   password: { type: String, require: true },
   // userID: {type: String, required: true},
@@ -29,6 +31,7 @@ const mainObjectSchema = new mongoose.Schema({
   users: [userObjectSchema],
   playlists: [playlistObjectSchema],
 });
+
 const MainObject = mongoose.model('MainObject', mainObjectSchema);
 const UserObject = mongoose.model('UserObject', userObjectSchema);
 const PlaylistObject = mongoose.model('playlistObject', playlistObjectSchema);
