@@ -80,7 +80,7 @@ export default function CreatePlaylistPopup({ open, children, onClose }) {
         groupID,
         playlistOwner,
       };
-      fetch("http://localhost:8080/playlist", {
+      fetch("/api/playlist", {
         method: "POST",
         body: JSON.stringify(playlistData),
         headers: { "Content-type": "application/json" },
