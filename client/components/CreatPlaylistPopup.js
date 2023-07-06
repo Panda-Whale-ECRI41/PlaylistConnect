@@ -21,18 +21,6 @@ const OVERLAY_STYLE = {
   zIndex: 1000
 };
 
-/*
-
-  playlistName: { type: String },
-  description: { type: String, required: true },
-  genre: { type: String },
-  playlistID: { type: String, required: true },
-  playlistURL: { type: String, required: true },
-  groupID: { type: String, required: true },
-  playlistOwner: { type: String, required: true },
-});
-
-*/
 
 export default function CreatePlaylistPopup({ open, onClose }) {
 
@@ -43,7 +31,7 @@ export default function CreatePlaylistPopup({ open, onClose }) {
 
 
     console.log('playlist submit clicked');
-    console.log('playlistName: ', playlistName);
+    // console.log('playlistName: ', playlistName);
     console.log('description: ', description);
     console.log('genre: ', genre);
     console.log('playlistURL: ', playlistURL);
@@ -51,52 +39,21 @@ export default function CreatePlaylistPopup({ open, onClose }) {
     console.log('playlistOwner: ', playlistOwner);
 
 
-    // const [playlistName, setPlaylistName] = useState('');
-    // const [description, setDescription] = useState('');
-    // const [genre, setGenre] = useState('');
-    // // const [playlistID, setPlaylistID] = useState('');
-    // const [playlistURL, setPlaylistURL] = useState('');
-    // const [groupID, setGroupID] = useState('');
-    // const [playlistOwner, setPlaylistOwner] = useState('');
-    
-
-    // const handlePlaylistNameChange = event => {
-    //   setPlaylistName(event.target.value)
-    // };
-
-    // const handleDescriptionChange = event => {
-    //   setDescription(event.target.value)
-    // };
-
-    // const handleGenreChange = event => {
-    //   setGenre(event.target.value)
-    // };
-
-    // // const handlePlaylistIDChange = event => {
-    // //   setPlaylistID(event.target.value)
-    // // };
-
-    // const handlePlaylistURLChange = event => {
-    //   setPlaylistURL(event.target.value)
-    // };
-
-    // const handleGroupIDChange = event => {
-    //   setGroupID(event.target.value)
-    // };
-
-    // const handlePlaylistOwnerChange = event => {
-    //   setPlaylistOwner(event.target.value)
-    // };
-
-    fetch("http://localhost:8080/playlist", {
+    fetch("http://localhost:3000/playlist", {
       method: "POST",
       body: JSON.stringify({
-        playlistName,
+        // playlistName,
+        // description,
+        // genre,
+        // playlistURL,
+        // groupID,
+        // playlistOwner
         description,
-        genre,
+        playlistID,
         playlistURL,
         groupID,
-        playlistOwner
+        playlistOwner,
+        genre
       }),
       headers: { "Content-type": "application/json" },
     })
@@ -113,20 +70,18 @@ export default function CreatePlaylistPopup({ open, onClose }) {
   };
     
 
-
-
-  const [playlistName, setPlaylistName] = useState('');
+  // const [playlistName, setPlaylistName] = useState('');
   const [description, setDescription] = useState('');
   const [genre, setGenre] = useState('');
-  // const [playlistID, setPlaylistID] = useState('');
+  const [playlistID, setPlaylistID] = useState('');
   const [playlistURL, setPlaylistURL] = useState('');
   const [groupID, setGroupID] = useState('');
   const [playlistOwner, setPlaylistOwner] = useState('');
   
 
-  const handlePlaylistNameChange = event => {
-    setPlaylistName(event.target.value)
-  };
+  // const handlePlaylistNameChange = event => {
+  //   setPlaylistName(event.target.value)
+  // };
 
   const handleDescriptionChange = event => {
     setDescription(event.target.value)
@@ -134,6 +89,10 @@ export default function CreatePlaylistPopup({ open, onClose }) {
 
   const handleGenreChange = event => {
     setGenre(event.target.value)
+  };
+
+  const handlePlaylistIDChange = event => {
+    setPlaylistID(event.target.value)
   };
 
   const handlePlaylistURLChange = event => {
@@ -171,7 +130,7 @@ export default function CreatePlaylistPopup({ open, onClose }) {
             <h2>Add Playlist to Group</h2>
             
             <div>
-              <label htmlFor="playlistName">
+              {/* <label htmlFor="playlistName">
                 Playlist Name:
                 <br></br>
                 <input
@@ -183,7 +142,7 @@ export default function CreatePlaylistPopup({ open, onClose }) {
               </label>
 
               <br></br>
-              <br></br>
+              <br></br> */}
 
               <label htmlFor="description">
                 Description:
@@ -215,6 +174,20 @@ export default function CreatePlaylistPopup({ open, onClose }) {
 
               {/* <label htmlFor="Playlist ID">ID:</label> */}
               {/* <input type="text" id="Playlist ID" placeholder="enter ID" /> */}
+
+              <label htmlFor="playlistID">
+                Playlist ID:
+                <br></br>
+                <input
+                  type="text"
+                  id="playlistID"
+                  placeholder="enter playlist ID"
+                  onChange={handlePlaylistIDChange}
+                />
+              </label>
+
+              <br></br>
+              <br></br>
 
               <label htmlFor="Playlist URL">
                 URL:
@@ -255,10 +228,7 @@ export default function CreatePlaylistPopup({ open, onClose }) {
               />
             </label>
             </div>
-
-
-
-            
+         
             <br></br>
             <br></br>
 
@@ -289,35 +259,3 @@ export default function CreatePlaylistPopup({ open, onClose }) {
 
 
 
-
-
-
-
-// action="/playlist" method="post"
-
-// document.querySelector('#submitButton').addEventListener('click', (event)=> {
-//     // create a new object {createdat: createby: message:}
-
-//     const today = new Date();
-//     const timeStamp = today.toISOString();
-
-//     const sending = {
-//       message: messageInput.value,
-//       created_at: timeStamp,
-//       created_by: user.value
-//     };
-
-//     console.log(stringIt(sending));
-//     // console.log(`button`, submitButton.value)
-//   })
-
-// document.body.appendChild(form);
-
-//     /*
-//         Return form in popup:
-//             input fields as follows:
-//                 playlistName: string,
-//                 description: string,
-//                 genre: string (for now),
-//                 playlistURL: string,
-//     */
