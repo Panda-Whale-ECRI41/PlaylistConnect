@@ -34,14 +34,15 @@ module.exports = {
   ],
   devServer: {
     static: {
-      directory: path.resolve(__dirname, './client'),
+      directory: path.resolve(__dirname, './build'),
     },
+    host: 'localhost',
     port: 8080,
     open: true,
     hot: true,
     compress: true,
     proxy: {
-      '/': 'http://localhost:3000',
+      '/api': 'http://localhost:3000',
     },
   },
   stats: {
