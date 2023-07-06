@@ -15,8 +15,8 @@ const LeftDiv = (props) => {
 
   function generateAllPlaylist(arr) {
     function getGroup(id) {
-      console.log('calling get palylist');
-      fetch(`http://localhost:3000/playlist?playlistID=${id}`)
+      console.log('calling get playlist');
+      fetch(`/api/playlist?playlistID=${id}`)
         .then((res) => {
           console.log('there is a res');
           return res.json();
