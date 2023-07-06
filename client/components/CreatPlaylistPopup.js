@@ -85,7 +85,7 @@ export default function CreatePlaylistPopup({ open, children, onClose }) {
         groupID,
         playlistOwner,
       };
-      fetch('http://localhost:8080/playlist', {
+      fetch('http://localhost:3000/playlist', {
         method: 'POST',
         body: JSON.stringify(playlistData),
         headers: { 'Content-type': 'application/json' },
