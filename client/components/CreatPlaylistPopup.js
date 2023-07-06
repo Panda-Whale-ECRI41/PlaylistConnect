@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const STYLE = {
   position: 'fixed',
@@ -32,83 +32,133 @@ const OVERLAY_STYLE = {
 });
 
 */
-export default function CreatePlaylistPopup({ open, children, onClose }) {
-  //called when submit button clicked
-  const buttonClick = () => {
-    // 1
-    //handles form submission and fetches playlist data
-    grabFormFields();
-    // 2
-    // (onClose());
-  };
-  //extract playlistID from spotify URL, handles URLs with and without query params using regex patterns
-  function regexGetID(url) {
-    console.log(url, 'this is the url');
-    //https://open.spotify.com/playlist/1CGWsx59an7hhc0SWZWsoG?si=07a7832e0e9f411d
-    //https://open.spotify.com/playlist/0njqI80SiF1vxq5QVyyFP2
-    const regex1 = /.+(?=\?)/gi;
-    const regex2 = /(?<=playlist\/).+/gi;
-    //execute search on given url returns an arr containing matched substrings
-    const str = regex1.exec(url);
-    console.log(str, 'this is the first');
-    let str2;
-    if (str === null) {
-      str2 = regex2.exec(url);
-    } else {
-      str2 = regex2.exec(str[0]);
-    }
-    console.log(str2);
-    return str2[0];
-  }
-  //retreive input fields within form with ID createPlaylistForm
-  const grabFormFields = () => {
-    const form = document.getElementById('createPlaylistForm');
 
-    form.addEventListener('submit', (event) => {
-      console.log('listner is listening');
-      event.preventDefault();
-      const playlistName = document.getElementById('playlistName').value;
-      const description = document.getElementById('description').value;
-      const genre = document.getElementById('genre').value;
-      const playlistURL = document.getElementById('URL').value;
-      const playlistID = regexGetID(playlistURL);
-      const groupID = document.getElementById('Group ID').value;
-      const playlistOwner = document.getElementById('Playlist Owner').value;
-      //   console.log(playlistName);
+export default function CreatePlaylistPopup({ open, onClose }) {
+  const grabFormFields = (event) => {
+    event.preventDefault();
 
-      const playlistData = {
+    console.log('playlist submit clicked');
+    console.log('playlistName: ', playlistName);
+    console.log('description: ', description);
+    console.log('genre: ', genre);
+    console.log('playlistURL: ', playlistURL);
+    console.log('groupID: ', groupID);
+    console.log('playlistOwner: ', playlistOwner);
+
+    // const [playlistName, setPlaylistName] = useState('');
+    // const [description, setDescription] = useState('');
+    // const [genre, setGenre] = useState('');
+    // // const [playlistID, setPlaylistID] = useState('');
+    // const [playlistURL, setPlaylistURL] = useState('');
+    // const [groupID, setGroupID] = useState('');
+    // const [playlistOwner, setPlaylistOwner] = useState('');
+
+    // const handlePlaylistNameChange = event => {
+    //   setPlaylistName(event.target.value)
+    // };
+
+    // const handleDescriptionChange = event => {
+    //   setDescription(event.target.value)
+    // };
+
+    // const handleGenreChange = event => {
+    //   setGenre(event.target.value)
+    // };
+
+    // // const handlePlaylistIDChange = event => {
+    // //   setPlaylistID(event.target.value)
+    // // };
+
+    // const handlePlaylistURLChange = event => {
+    //   setPlaylistURL(event.target.value)
+    // };
+
+    // const handleGroupIDChange = event => {
+    //   setGroupID(event.target.value)
+    // };
+
+    // const handlePlaylistOwnerChange = event => {
+    //   setPlaylistOwner(event.target.value)
+    // };
+
+    fetch('http://localhost:8080/playlist', {
+      method: 'POST',
+      body: JSON.stringify({
         playlistName,
         description,
         genre,
-        playlistID,
         playlistURL,
         groupID,
         playlistOwner,
-      };
-      fetch('http://localhost:3000/playlist', {
-        method: 'POST',
-        body: JSON.stringify(playlistData),
-        headers: { 'Content-type': 'application/json' },
+      }),
+      headers: { 'Content-type': 'application/json' },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Playlist Obj Created: ', data);
+        form.reset();
+        onClose();
       })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log('Playlist Obj Created: ', data);
-          form.reset();
-          onClose();
-        })
-        .catch((error) => console.error('Not created.', error));
-    });
+      .catch((error) => console.error('Not created.', error));
+
+    onClose();
+    // });
   };
+
+  const [playlistName, setPlaylistName] = useState('');
+  const [description, setDescription] = useState('');
+  const [genre, setGenre] = useState('');
+  // const [playlistID, setPlaylistID] = useState('');
+  const [playlistURL, setPlaylistURL] = useState('');
+  const [groupID, setGroupID] = useState('');
+  const [playlistOwner, setPlaylistOwner] = useState('');
+
+  const handlePlaylistNameChange = (event) => {
+    setPlaylistName(event.target.value);
+  };
+
+  const handleDescriptionChange = (event) => {
+    setDescription(event.target.value);
+  };
+
+  const handleGenreChange = (event) => {
+    setGenre(event.target.value);
+  };
+
+  const handlePlaylistURLChange = (event) => {
+    setPlaylistURL(event.target.value);
+  };
+
+  const handleGroupIDChange = (event) => {
+    setGroupID(event.target.value);
+  };
+
+  const handlePlaylistOwnerChange = (event) => {
+    setPlaylistOwner(event.target.value);
+  };
+
   if (!open) return null;
 
   return (
     <>
-      <div style={OVERLAY_STYLE}>
-        <div style={STYLE}>
-          <form id='createPlaylistForm' action='/playlist' method='post'>
+      <div
+        style={OVERLAY_STYLE}
+        // className="OVERLAY_STYLE"
+      >
+        <div
+          style={STYLE}
+          // className="OVERLAY_STYLE"
+        >
+          <form
+            id='createPlaylistForm'
+            action='/playlist'
+            method='post'
+            onSubmit={grabFormFields}
+          >
             <h2>Add Playlist to Group</h2>
+
             <div>
-              <label htmlFor='playlistName'>Playlist name:</label>
+              <label htmlFor='playlistName'>Playlist Name:</label>
               <input
                 type='text'
                 id='playlistName'
@@ -146,12 +196,14 @@ export default function CreatePlaylistPopup({ open, children, onClose }) {
           >
             Close
           </button>
+
           {/* {children} */}
         </div>
       </div>
     </>
   );
 }
+
 // action="/playlist" method="post"
 
 // document.querySelector('#submitButton').addEventListener('click', (event)=> {

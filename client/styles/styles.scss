@@ -105,3 +105,33 @@ iframe {
   margin-bottom: 10px;
   background-color: $sub-background-color;
 }
+
+.closeButton {
+  border: 2px solid rgb (73, 73, 73)
+  // transparent
+  ;
+  border-radius: 16px;
+}
+
+OVERLAY_STYLE {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, .7);
+  z-index: 1000
+}
+
+STYLE {
+  position: 
+    // fixed
+    absolute
+  ;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 50px;
+  background: #FFF;
+  z-index: 1000
+}
