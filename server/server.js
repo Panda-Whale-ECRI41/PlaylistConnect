@@ -24,9 +24,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.resolve(__dirname, '../client')));
 
-app.get('/', (req, res) => {
-  return res.status(200).sendFile(path.join(__dirname, '../client/index.html'));
-});
+// app.get('/', (req, res) => {
+//   return res.status(200).sendFile(path.join(__dirname, '../client/index.html'));
+// });
 
 // createUser
 app.post('/user', mainController.createUser, (req, res) => {
