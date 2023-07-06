@@ -12,7 +12,7 @@ const App = () => {
   }
   useEffect(() => {
     async function getUser() {
-      const user = await fetch('http://localhost:3000/user/StarNoseMole');
+      const user = await fetch('http://localhost:3000/user/xjqiu');
       const newUser = await user.json();
       setCurrentUser(newUser);
     }

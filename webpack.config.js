@@ -34,9 +34,10 @@ module.exports = {
   ],
   devServer: {
     static: {
-      directory: path.resolve(__dirname, './client'),
+      directory: path.resolve(__dirname, './build'),
     },
-    port: 8080,
+    host: 'localhost',
+    port: '8080',
     open: true,
     hot: true,
     compress: true,
