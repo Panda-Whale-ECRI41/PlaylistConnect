@@ -4,6 +4,7 @@ import { Register } from "./Register";
 import { Route, Routes, Link, useNavigate, BrowserRouter } from 'react-router-dom';
 import Home from './Home.jsx';
 
+
 function App() {
   return (
     <>
