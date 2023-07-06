@@ -17,6 +17,7 @@ const mainController = {
         log: "Error in controller.js/mainController.createUser",
         status: 400,
         message: { err: "Try another username" },
+
       });
     } else {
       UserObject.create({ firstName, lastName, username, password })
@@ -55,9 +56,15 @@ const mainController = {
   // ---------------------------- GROUP CONTROLLER ----------------------------
   // createGroup
   createGroup(req, res, next) {
+    // equivalent to const groupName = req.body.groupName 
+    // equivalent to const groupID = req.body.groupID
     const { groupName, groupID } = req.body;
+
     GroupObject.create({ groupName, groupID })
       .then((group) => {
+        if (groupID && Object.keys(groupID).length()) {
+          return next();
+        }
         res.locals.newGroup = group;
         console.log(group);
         return next();
@@ -220,12 +227,10 @@ const mainController = {
   // access playlists array and push the newly created playlist object to that array.
   // playlist/:groupID
   getPlaylist(req, res, next) {
-    const groupID = req.params.groupID;
-    console.log("This is groupID", groupID);
+    const groupID = req.query.playlistID;
+    console.log(req.query.playlistID);
     GroupObject.findOne({ groupID: groupID })
       .then((group) => {
-        console.log("we are in here");
-        console.log(group);
         res.locals.foundPlaylist = group.playlists;
         console.log(group.playlists);
         return next();
